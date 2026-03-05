@@ -10,6 +10,7 @@ import (
 	. "gitp78su.ipnodns.ru/svi/kern/krn/ktypes"
 
 	. "wartank/app/lev0/alias"
+	"wartank/app/lev0/bot_log"
 	. "wartank/app/lev0/types"
 )
 
@@ -68,6 +69,9 @@ func НовВебАпи() *ВебАпи {
 
 	// Статистика действий бота
 	файбер.Post("/api/bot/:number/stats", сам.статистикаБота)
+
+	// Глобальный лог бота (stdout)
+	файбер.Post("/api/log", сам.логБота)
 
 	return сам
 }
@@ -673,6 +677,16 @@ func (сам *ВебАпи) стартНомер(кнт *fiber.Ctx) error {
 // Возвращает аптайм сервера
 func (сам *ВебАпи) аптаймСервер(кнт *fiber.Ctx) error {
 	return кнт.SendString("[Аптайм: " + сам.прилож.Стат().ВремяВсего() + "]")
+}
+
+// Возвращает лог бота (stdout) в виде HTML
+func (сам *ВебАпи) логБота(кнт *fiber.Ctx) error {
+	minLeft := bot_log.NextClear()
+	header := fmt.Sprintf(
+		`<div style="color:#888;font-size:11px;margin-bottom:4px">⏱ очистка через ~%d мин | последние 300 строк, новые сверху</div>`,
+		minLeft,
+	)
+	return кнт.Type("html").SendString(header + bot_log.GetHTML())
 }
 
 // Возвращает полную статистику действий бота (JSON)

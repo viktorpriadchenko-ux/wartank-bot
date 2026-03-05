@@ -12,10 +12,14 @@ import (
 	"gitp78su.ipnodns.ru/svi/kern"
 	. "gitp78su.ipnodns.ru/svi/kern"
 
+	"wartank/app/lev0/bot_log"
 	"wartank/app/lev4/build"
 )
 
 func main() {
+	// Перехват stdout в кольцевой буфер (лог в веб-UI)
+	bot_log.Init()
+
 	монолит := GetMonolitLocal("WarTank")
 
 	модКонт := GetModuleKernelCtx()
