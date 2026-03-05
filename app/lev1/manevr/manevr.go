@@ -105,8 +105,9 @@ func (сам *манёвр) findManevrTime() {
 		стрВых      string
 	)
 	for ind, стрВых = range lstBattleOn {
-		// <a href="pve?4-88.ILinkListener-currentControl-maneuverLink" class="simple-but blue"><span><span>5 секунд</span></span></a>
-		if strings.Contains(стрВых, `-currentControl-maneuverLink`) {
+		// PvE: <a href="pve?4-88.ILinkListener-currentControl-maneuverLink" class="simple-but blue"><span><span>5 секунд</span></span></a>
+		// PvP: <a w:id="maneuverLink" href="pvp?65-1.ILinkListener-maneuverLink" class="simple-but blue"><span><span>5 секунд</span></span></a>
+		if strings.Contains(стрВых, `maneuverLink`) {
 			еслиНайдено = true
 			break
 		}
@@ -126,7 +127,7 @@ func (сам *манёвр) findManevrTime() {
 		return
 	}
 	{ // Найти время манёвра
-		lstTime := strings.Split(стрВых, `ILinkListener-currentControl-maneuverLink" class="simple-but blue"><span><span>`)
+		lstTime := strings.Split(стрВых, `maneuverLink" class="simple-but blue"><span><span>`)
 		if len(lstTime) != 2 {
 			сам.лог.Err("манёвр.findManevrTime(): нет двух полей во времени ожидания инд=%v\n\n%v\n%v\n%v",
 				ind,
@@ -168,7 +169,8 @@ func (сам *манёвр) Выполнить() {
 	if !еслиНайдено {
 		return
 	}
-	lstLink := strings.Split(strOut, `<a href="`)
+	// Извлекаем href универсально (PvP имеет w:id перед href)
+	lstLink := strings.Split(strOut, `href="`)
 	if len(lstLink) < 2 {
 		return
 	}

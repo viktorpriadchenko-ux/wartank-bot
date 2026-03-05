@@ -11,7 +11,9 @@ import (
 	"wartank/app/lev2/arena/arena_base"
 	"wartank/app/lev2/arena/arena_battle"
 	"wartank/app/lev2/arena/arena_convoy"
+	"wartank/app/lev2/arena/arena_cw"
 	"wartank/app/lev2/arena/arena_division"
+	"wartank/app/lev2/arena/arena_dm"
 	"wartank/app/lev2/arena/arena_fuel_duel"
 	"wartank/app/lev2/arena/arena_fuel_storage"
 	"wartank/app/lev2/arena/arena_market"
@@ -109,4 +111,16 @@ func НовШахта(конт ILocalCtx) ИАренаШахта {
 // ЗапустиДивизию -- запускает бой дивизий в фоновых горутинах (без остановки -- контекст управляет жизнью)
 func ЗапустиДивизию(конт ILocalCtx) {
 	arena_division.НовДивизия(конт)
+}
+
+// НовАренаКлановаяВойна -- возвращает новую арену клановой войны (CW)
+func НовАренаКлановаяВойна(конт ILocalCtx) ИАренаСтроение {
+	арена := arena_cw.НовАренаКлановаяВойна(конт)
+	return арена
+}
+
+// НовАренаСхватки -- возвращает новую арену схваток (DM / deathmatch)
+func НовАренаСхватки(конт ILocalCtx) ИАренаСтроение {
+	арена := arena_dm.НовАренаСхватки(конт)
+	return арена
 }

@@ -1,133 +1,78 @@
 package arena_masters
 
+// Битва мастеров (PVP). Новая реализация — линейный горутинный цикл
+// register → wait → fight → repeat. Без state machine, без фильтра
+// контрольной строки.
+
 import (
-	"strings"
+	"context"
 
 	. "gitp78su.ipnodns.ru/svi/kern"
 	. "gitp78su.ipnodns.ru/svi/kern/krn/ktypes"
 
-	. "wartank/app/lev0/alias"
+	"wartank/app/lev0/alias"
 	. "wartank/app/lev0/types"
-	"wartank/app/lev2/arena"
-	"wartank/app/lev2/arena/arena_build"
-	"wartank/app/lev2/arena/arena_masters/bf_masters_fight"
-	"wartank/app/lev2/arena/arena_masters/bf_masters_register"
-	"wartank/app/lev2/arena/arena_masters/bf_masters_wait"
+	"wartank/app/lev1"
+	"wartank/app/lev1/down_time"
+	"wartank/app/lev1/web_log"
+	"wartank/app/lev2/arena/arena_context/arena_state"
 )
 
-/*
-	Битва мастеров. Работает примерно раз в сутки.
-	Требуется три победы, потом нужно загрести золотишко.
-	Между битвами надо удерживать рейтинг, чтобы не кидало к монстрам.
-*/
-
-// БитваМастеров -- объект битвы мастеров
+// БитваМастеров — объект битвы мастеров.
+// Реализует ИАренаСтроение (для совместимости с bot.go),
+// но сам бой выполняется в горутине ПвпБоец.
 type БитваМастеров struct {
-	ИАренаСтроение
-	конт ILocalCtx
-	лог  ILogBuf
+	конт    ILocalCtx
+	лог     ILogBuf
+	боец    *ПвпБоец
+	// Заглушки для ИАренаСтроение (веб-отображение состояния PVP)
+	состояние     ИАренаСостояние
+	вЛог          ИВебЛог
+	времяОстат    ИВремяОстат
+	продуктВремя  ISafeString
+	продуктСейчас ИСтатПарам
+	уровень       ИСтатПарам
 }
 
-// НовБитваМастеров -- возвращает новый *BatMas
+// НовБитваМастеров — создаёт объект PVP-битвы с фоновым бойцом
 func НовБитваМастеров(конт ILocalCtx) *БитваМастеров {
 	лог := NewLogBuf()
-	лог.Info("НовБитваМастеров()\n")
+	лог.Info("НовБитваМастеров(): новая линейная реализация\n")
 	сам := &БитваМастеров{
-		конт: конт,
-		лог:  лог,
+		конт:          конт,
+		лог:           лог,
+		боец:          НовПвпБоец(конт),
+		состояние:     arena_state.НовАренаСостояние(),
+		вЛог:          web_log.НовВебЛог(true),
+		времяОстат:    down_time.НовВремОбрат(конт, 5),
+		продуктВремя:  NewSafeString(),
+		продуктСейчас: lev1.НовСтатПарам("не задано"),
+		уровень:       lev1.НовСтатПарам("уровень"),
 	}
-	аренаКонфиг := arena.АренаКонфиг{
-		Конт_:        конт,
-		АренаИмя_:    "Битва мастеров",
-		СтрКонтроль_: `/> Битва мастеров <`,
-		СтрУрл_:      "https://wartank.ru/pvp",
-	}
-	сам.ИАренаСтроение = arena_build.НовАренаСтроение(конт, аренаКонфиг)
-	конт.Set("pvp", сам, "Арена битвы мастеров")
+	конт.Set("pvp", сам, "Арена битвы мастеров (линейная)")
 	return сам
 }
 
+// Пуск запускает фоновую горутину PVP. Вызывается bot.go каждые 5 сек,
+// но реально создаёт только одну горутину.
 func (сам *БитваМастеров) Пуск() {
-	сам.ИАренаСтроение.Обновить()
-	bf_masters_register.СражениеРегистрация(сам.конт)
-	bf_masters_wait.МастераОжидать(сам.конт)
-	bf_masters_fight.МастераВыполнить(сам.конт)
+	сам.боец.Пуск()
 }
 
-// Вычисляет нужно ли идти в битву мастеров
-//
-//	если нужно, то время проверять уже не надо
-func (сам *БитваМастеров) goBatMas() bool {
-	сам.findTimeCount()
-	if !сам.upBattle() {
-		return false
-	}
-	countTime := сам.ВремяОстат().String()
-	if countTime > "00:25:00" {
-		сам.ОбратВремяУст(АВремя(countTime))
-	}
+// ==== Реализация ИАренаСтроение (заглушки для совместимости) ====
 
-	// Время меньше 25 сек, надо уточнять (тут возможна ошибка с экраном ожидания)
-	сам.Обновить()
-	// Время ожидания вышло, надо начать атаку
-	сам.ОбратВремяУст("00")
-	return false
-}
-
-// Ищет время до начала битвы мастеров
-func (сам *БитваМастеров) findTimeCount() {
-	var (
-		strOut      string
-		lstBattle   = сам.СписПолучить()
-		еслиНайдено bool
-	)
-	// Обновление через: 12:02:22
-	for _, strOut = range lstBattle {
-		if strings.Contains(strOut, `Обновление через: `) {
-			еслиНайдено = true
-			break
-		}
-	}
-	if еслиНайдено { // Ждём начала битвы мастеров
-		lstTime := strings.Split(strOut, `Обновление через: `)
-		strTime := lstTime[1]
-		lstTime = strings.Split(strTime, ` (`)
-		strTime = lstTime[0]
-
-		сам.ОбратВремяУст(АВремя(strTime))
-	}
-}
-
-// При необходимости даёт команду на участие в битве мастеров,
-//
-//	вызывается только если есть награда
-func (сам *БитваМастеров) upBattle() bool {
-	сам.Обновить()
-	// log.Error("BatMas.upBattle(): доделать")
-	// var (
-	// 	strOut    string
-	// 	lstBattle = сам.GetLst()
-	// 	еслиНайдено    bool
-	// )
-	// for _, strOut = range lstBattle {
-	// 	if strings.Contains(strOut, `>Взвод, подъем! В атаку!<`) {
-	// 		еслиНайдено = true
-	// 		break
-	// 	}
-	// }
-	// if еслиНайдено {
-	// 	lstUp := strings.Split(strOut, `<a class="simple-but border" href="`)
-	// 	linkUp := lstUp[1]
-	// 	lstUp = strings.Split(linkUp, `"><span><span>Взвод, подъем! В атаку!</span></span></a>`)
-	// 	linkUp = "https://wartank.ru/" + lstUp[0]
-	// 	lstBattle, err := сам.net.Get(linkUp)
-	// 	if err != nil {
-	// 		log.WithError(err).Error("Battle.upBattle(): при выполнении GET-команды на подъём в атаку")
-	// 		return false
-	// 	}
-	// 	if err = сам.Update(lstBattle); err != nil {
-	// 		log.WithError(err).Error("Battle.upBattle(): при обновлении lstBattle")
-	// 	}
-	// }
-	return false
-}
+func (сам *БитваМастеров) Бот() ИБот                              { return сам.конт.Get("бот").Val().(ИБот) }
+func (сам *БитваМастеров) Контекст() context.Context                    { return сам.конт.Ctx() }
+func (сам *БитваМастеров) Отменить()                               {}
+func (сам *БитваМастеров) Имя() alias.ААренаИмя                    { return "Битва мастеров" }
+func (сам *БитваМастеров) Состояние() ИАренаСостояние               { return сам.состояние }
+func (сам *БитваМастеров) ВебЛог() ИВебЛог                         { return сам.вЛог }
+func (сам *БитваМастеров) СписПолучить() []string                   { return nil }
+func (сам *БитваМастеров) СтрОбновить(_ []string)                   {}
+func (сам *БитваМастеров) Обновить()                                {}
+func (сам *БитваМастеров) Сеть() ИАренаСеть                        { return nil }
+func (сам *БитваМастеров) Уровень() ИСтатПарам                     { return сам.уровень }
+func (сам *БитваМастеров) ПродуктСейчас() ИСтатПарам               { return сам.продуктСейчас }
+func (сам *БитваМастеров) ПродуктВремяСейчас() ISafeString         { return сам.продуктВремя }
+func (сам *БитваМастеров) ОбратВремяУст(времяСек alias.АВремя)     { сам.времяОстат.Уст(времяСек) }
+func (сам *БитваМастеров) ВремяОстат() ИВремяОстат                  { return сам.времяОстат }

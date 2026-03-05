@@ -14,16 +14,11 @@ import (
 )
 
 func НовМодСервер() IKernelModule {
-	конт := GetKernelCtx()
 	go ЗапуститьПрофиль()
 	bi, _ := debug.ReadBuildInfo()
 	лог := NewLogBuf()
 	лог.Info("ИНФО \tgo = %v\n\tvers = %v\n", bi.GoVersion, bi.Main.Version)
 	прил := mod_serv.НовМодСервер()
-	go func() {
-		time.Sleep(time.Minute * 20)
-		конт.Cancel()
-	}()
 	return прил
 }
 

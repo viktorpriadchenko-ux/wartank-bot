@@ -138,10 +138,10 @@ func (сам *Здоровье) найтиВремяВосстановления
 		еслиНайдено bool
 		ind         int
 	)
-	// <a href="pve?19-14.ILinkListener-currentControl-repairLink" class="simple-but blue"><span><span>12 секунд</span></span></a>
-	//
+	// PvE: <a href="pve?19-14.ILinkListener-currentControl-repairLink" class="simple-but blue"><span><span>12 секунд</span></span></a>
+	// PvP: <a w:id="repairLink" href="pvp?65-1.ILinkListener-repairLink" class="simple-but blue"><span><span>12 секунд</span></span></a>
 	for ind, strOut = range lstBattle {
-		if strings.Contains(strOut, `ILinkListener-currentControl-repairLink" class="simple-but blue"><span><span>`) {
+		if strings.Contains(strOut, `repairLink" class="simple-but blue"><span><span>`) {
 			еслиНайдено = true
 			break
 		}
@@ -150,8 +150,7 @@ func (сам *Здоровье) найтиВремяВосстановления
 		return
 	}
 	strOut = lstBattle[ind]
-	// <a href="pve?19-14.ILinkListener-currentControl-repairLink" class="simple-but blue"><span><span>12 секунд</span></span></a>
-	lstTime := strings.Split(strOut, `ILinkListener-currentControl-repairLink" class="simple-but blue"><span><span>`)
+	lstTime := strings.Split(strOut, `repairLink" class="simple-but blue"><span><span>`)
 	if len(lstTime) < 2 {
 		return
 	}
@@ -180,7 +179,8 @@ func (сам *Здоровье) repair() {
 	if !еслиНайденоRepair {
 		return
 	}
-	lstLink := strings.Split(strOut, `<a href="`)
+	// Извлекаем href универсально (PvP имеет w:id перед href)
+	lstLink := strings.Split(strOut, `href="`)
 	if len(lstLink) < 2 {
 		return
 	}
@@ -209,9 +209,10 @@ func (сам *Здоровье) здоровьеНайти() {
 		сам.Обновить()
 		lstBattle = сам.СписПолучить()
 	}
-	// <div class="small bold green1 sh_b mb10 mt5">Половина коня</div>
+	// PvE: <div class="small bold green1 sh_b mb10 mt5">Половина коня</div>
+	// PvP: может отличаться, ищем без завершающей кавычки
 	for ind, strOut = range lstBattle {
-		if strings.Contains(strOut, `<div class="small bold green1 sh_b mb10 mt5">`+сам.логин+`"`) {
+		if strings.Contains(strOut, `<div class="small bold green1 sh_b mb10 mt5">`+сам.логин) {
 			еслиНайдено = true
 			break
 		}
@@ -219,13 +220,15 @@ func (сам *Здоровье) здоровьеНайти() {
 	if !еслиНайдено {
 		сам.промаховЛогин++
 		fmt.Printf("здоровье: логин '%s' не найден (%d/30), строк=%d\n", сам.логин, сам.промаховЛогин, len(lstBattle))
-		if len(lstBattle) > 0 {
-			// Показать первые 3 строки для диагностики
-			for i := 0; i < 3 && i < len(lstBattle); i++ {
-				if len(lstBattle[i]) > 120 {
-					fmt.Printf("  строка[%d]: %s...\n", i, lstBattle[i][:120])
-				} else {
-					fmt.Printf("  строка[%d]: %s\n", i, lstBattle[i])
+		// Показать строки содержащие логин (диагностика HTML PvP)
+		if сам.промаховЛогин <= 2 {
+			for i, л := range lstBattle {
+				if strings.Contains(л, сам.логин) {
+					текст := л
+					if len(текст) > 200 {
+						текст = текст[:200]
+					}
+					fmt.Printf("  логин в [%d]: %s\n", i, текст)
 				}
 			}
 		}
@@ -238,20 +241,21 @@ func (сам *Здоровье) здоровьеНайти() {
 	}
 	сам.промаховЛогин = 0 // Сброс — логин найден
 	fmt.Printf("здоровье: логин найден, ind=%d\n", ind)
-	ind += 11
-	if ind >= len(lstBattle) {
-		fmt.Printf("здоровье: ind+11=%d >= len=%d, пропускаем\n", ind, len(lstBattle))
-		return
+	// Ищем value-block ВПЕРЁД от логина (PvE: +11, PvP: может отличаться)
+	for i := ind + 1; i < len(lstBattle) && i <= ind+20; i++ {
+		if strings.Contains(lstBattle[i], `<div class="value-block lh1"><span><span>`) {
+			strHealth := strings.TrimPrefix(lstBattle[i], `<div class="value-block lh1"><span><span>`)
+			strHealth = strings.TrimSuffix(strHealth, `</span></span></div>`)
+			iHealth, err := strconv.Atoi(strHealth)
+			if err != nil {
+				fmt.Printf("здоровье: ошибка Atoi для '%s' на +%d, пропускаем\n", strHealth, i-ind)
+				return
+			}
+			сам.здоровьеУстановить(iHealth)
+			return
+		}
 	}
-	strOut = lstBattle[ind]
-	strHealth := strings.TrimPrefix(strOut, `<div class="value-block lh1"><span><span>`)
-	strHealth = strings.TrimSuffix(strHealth, `</span></span></div>`)
-	iHealth, err := strconv.Atoi(strHealth)
-	if err != nil {
-		fmt.Printf("здоровье: ошибка Atoi для '%s', пропускаем (не убиваем бой)\n", strHealth)
-		return // Не убиваем бой — может быть временный глюк HTML
-	}
-	сам.здоровьеУстановить(iHealth)
+	fmt.Printf("здоровье: value-block не найден в ind+1..+20\n")
 }
 
 // здоровьеУстановить -- устанавливает текущее здоровье

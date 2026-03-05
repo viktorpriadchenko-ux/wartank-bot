@@ -123,9 +123,10 @@ func (сам *выстрел) shot() {
 		еслиНайдено bool
 	)
 	fmt.Printf("выстрел: после обновления, строк=%d\n", len(lstBattle))
-	// <a href="pve?6-26.ILinkListener-currentControl-attackRegularShellLink" class="simple-but gray"><span><span>ОБЫЧНЫЕ</span></span></a>
+	// PvE: <a href="pve?6-26.ILinkListener-currentControl-attackRegularShellLink" class="simple-but gray">...
+	// PvP: <a w:id="attackRegularShellLink" href="pvp?65-1.ILinkListener-attackRegularShellLink" class="simple-but gray">...
 	for _, strOut = range lstBattle {
-		if strings.Contains(strOut, `-currentControl-attackRegularShellLink`) {
+		if strings.Contains(strOut, `attackRegularShellLink`) {
 			еслиНайдено = true
 			break
 		}
@@ -143,9 +144,19 @@ func (сам *выстрел) shot() {
 	}
 	сам.промаховПодряд = 0 // Сбросить счётчик — кнопка найдена
 	fmt.Println("выстрел: кнопка НАЙДЕНА, стреляем!")
-	strLink := strings.TrimPrefix(strOut, `<a href="`)
-	strLink = strings.TrimSuffix(strLink, `" class="simple-but gray"><span><span>ОБЫЧНЫЕ</span></span></a>`)
-	strLink = "https://wartank.ru/" + strLink
+	// Извлекаем href универсально (PvP имеет w:id перед href)
+	idx := strings.Index(strOut, `href="`)
+	if idx == -1 {
+		fmt.Println("выстрел: href не найден в строке атаки")
+		return
+	}
+	остаток := strOut[idx+6:]
+	конец := strings.Index(остаток, `"`)
+	if конец == -1 {
+		fmt.Println("выстрел: закрывающая кавычка href не найдена")
+		return
+	}
+	strLink := "https://wartank.ru/" + остаток[:конец]
 	res := сам.Сеть().Get(strLink)
 	if res.IsErr() {
 		fmt.Println("выстрел: ошибка HTTP при выстреле, пропускаем")

@@ -28,7 +28,7 @@ if not exist "bin\server_dev.exe" (
 echo.
 echo [*] Запуск: STAGE=%STAGE%
 echo [*] Store:  %LOCAL_STORE_PATH%
-echo [*] HTTP:   http://localhost%LOCAL_HTTP_URL%
+echo [*] HTTP:   http://0.0.0.0%LOCAL_HTTP_URL% (доступен по локалке)
 echo [*] Port:   %SERVER_PORT%
 echo.
 echo --- Логи бота ---
