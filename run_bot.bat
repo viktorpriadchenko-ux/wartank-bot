@@ -35,6 +35,11 @@ echo --- Логи бота ---
 echo.
 
 :loop
+:: Удаляем LOCK от Badger если сервер упал нечисто
+if exist "store\db_local\LOCK" (
+    del /F /Q "store\db_local\LOCK" >nul 2>&1
+    echo [~] Удалён LOCK файл от предыдущего запуска
+)
 bin\server_dev.exe
 echo.
 echo [!] Сервер завершился (код: %errorlevel%). Перезапуск через 5 сек...
