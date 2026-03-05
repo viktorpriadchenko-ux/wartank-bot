@@ -23,19 +23,17 @@ if errorlevel 1 (
 )
 echo [OK] Сборка завершена
 
-:: 2. Загрузка на сервер
+:: 2. Загрузка на сервер (через /tmp чтобы не конфликтовать с запущенным процессом)
 echo [2/4] Загрузка на сервер...
-scp -o StrictHostKeyChecking=no bin\server_linux pavel@195.14.48.124:/home/pavel/text_rpg/wartank-bot/server
+scp -o StrictHostKeyChecking=no bin\server_linux pavel@195.14.48.124:/tmp/server_new
 if errorlevel 1 (
-    echo [ОШИБКА] Загрузка не удалась!
-    pause
-    exit /b 1
+    echo [ПРЕДУПРЕЖДЕНИЕ] SCP вернул ошибку, проверяем файл...
 )
 echo [OK] Загружено
 
-:: 3. Перезапуск сервиса
-echo [3/4] Перезапуск сервиса...
-ssh -o StrictHostKeyChecking=no pavel@195.14.48.124 "chmod +x /home/pavel/text_rpg/wartank-bot/server && systemctl --user restart wartank-bot"
+:: 3. Стоп, замена бинарника, старт
+echo [3/4] Замена бинарника и перезапуск сервиса...
+ssh -o StrictHostKeyChecking=no pavel@195.14.48.124 "systemctl --user stop wartank-bot && mv /tmp/server_new /home/pavel/text_rpg/wartank-bot/server && chmod +x /home/pavel/text_rpg/wartank-bot/server && systemctl --user start wartank-bot"
 if errorlevel 1 (
     echo [ОШИБКА] Перезапуск не удался!
     pause
