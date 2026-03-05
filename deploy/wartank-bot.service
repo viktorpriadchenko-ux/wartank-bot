@@ -1,0 +1,40 @@
+[Unit]
+Description=WarTank Bot Server
+After=network.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=pavel
+Group=pavel
+WorkingDirectory=/home/pavel/wartank
+ExecStart=/home/pavel/wartank/bin/server
+Environment=STAGE=production
+Environment=LOCAL_STORE_PATH=./store
+Environment=LOCAL_HTTP_URL=:18061
+Environment=SERVER_PORT=18050
+
+# Автоматический перезапуск при падении
+Restart=always
+RestartSec=10
+
+# Принудительный перезапуск каждые 6 часов (защита от утечек памяти)
+RuntimeMaxSec=21600
+# WatchdogSec=300  # TODO: реализовать sd_notify в коде
+
+# Лимиты
+LimitNOFILE=65535
+MemoryMax=512M
+
+# Логирование через journald
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=wartank-bot
+
+# Graceful shutdown: посылаем SIGTERM, ждём 30с
+KillMode=mixed
+KillSignal=SIGTERM
+TimeoutStopSec=30
+
+[Install]
+WantedBy=multi-user.target

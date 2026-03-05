@@ -1,0 +1,43 @@
+<!doctype html>
+<HTML lang="ru">
+
+    <head>
+        <title>ВарТанк</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta pragma="no-cache">
+        <!-- Bootstrap CSS -->
+        <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+        <!-- htmx -->
+        <script src="/static/js/htmx.min.js"></script>
+        <script src="/static/js/hyperscript.min.js"></script>
+    </head>
+
+    <body hx-boost="true">
+        <div id="header" class="container-fluid"><!-- начало боди-контейнера -->
+            <div class="container-fluid align-middle"><!-- контейнер заголовка -->
+                <div class="row border align-items-center">
+                    <div class="col-auto border border-primary rounded btn btn-dark">
+                        <h1>WarTank</h1>
+                    </div>
+                    <div class="col">
+                        <a class="btn btn-primary" href="/">Главная</a>
+                        {.btn_lst_bot}
+                        <a class="btn btn-primary" hx-get="/monolit" hx-target="body">Монолит</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div id="main" hx-post="/gui/bot/list_show" hx-trigger="load">
+            Загрузка...
+        </div>
+        <div id="foother" class="container-fluid border rounded text-info bg-dark">
+            <span>FunnySoft 20021-2025 (c)</span>
+            <span hx-post="/api/uptime" hx-trigger="every 5s"></span>
+            <span hx-post="/api/count_start" hx-trigger="every 30s"></span>
+        </div>
+        <script src="/static/js/bootstrap.bundle.min.js"></script>
+    </body>
+
+</HTML>

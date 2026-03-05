@@ -1,0 +1,48 @@
+
+# Бинарники
+bin/
+bin_dev/
+
+# Данные ботов — логины, пароли, сессии (НЕЛЬЗЯ в репо!)
+store/
+
+# Env-файл (может содержать секреты)
+.env
+
+# Логи
+*.log
+bot_out.log
+bot_err.log
+server_out.log
+server_err.log
+server_full.log
+
+# HTML-дампы отладки
+battle_dump_*.html
+out.html
+
+# Архивы
+*.zip
+*.7z
+wartank.zip
+cmd/pwa.7z
+cmd/serv_old.zip
+cmd/serv_run.zip
+
+# Устаревшее / временное
+old/
+tmp.tex
+cover.out
+graph.svg
+build.py
+run.py
+test.py
+out.log
+sqlite/
+
+# IDE
+.vscode/
+__pycache__/
+
+# Go debug binary
+cmd/server/__debug_bin

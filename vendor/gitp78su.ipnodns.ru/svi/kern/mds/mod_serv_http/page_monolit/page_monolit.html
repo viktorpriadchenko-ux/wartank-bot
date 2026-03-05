@@ -1,0 +1,75 @@
+<!doctype html>
+<HTML lang="ru">
+
+    <head>
+        <title>kern</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta pragma="no-cache">
+        <!-- Bootstrap CSS -->
+        <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+        <!-- htmx -->
+        <script src="/static/js/htmx.min.js"></script>
+        <script src="/static/js/hyperscript.min.js"></script>
+    </head>
+
+    <body hx-boost="true">
+
+        <!-- заголовок -->
+        <div id="header" class="cointainer">
+            <div class="container-fluid align-middle"><!-- контейнер заголовка -->
+                <div class="row border align-items-center">
+                    <div class="col-auto border border-primary rounded btn btn-dark">
+                        <h1>kern</h1>
+                    </div>
+                    <div class="col">
+                        {.btn_monolit}
+                        {.btn_modules}
+                        <a class="btn btn-primary" href="/monitor" hx-boost="false">Monitor</a>
+                    </div>
+                </div>
+            </div>
+            <!-- тест для hyperscript
+                <div class="container-fluid">
+                    <div class="counter">
+                        <button _="on click increment the textContent of the next <output/>">Прибавить</button>
+                        [<output>0</output>]
+                        <button _="on click decrement the textContent of the previous <output/>">убавить</button><br>
+                    </div>
+                    <br>
+                </div>
+            -->
+        </div>
+
+        <!-- main -->
+        <div id="main" class="container">
+            <div id="monolit" class="container">
+                <div class="container border rounded m-3 text-center">
+                    <h2>Monolit</h2>
+                </div>
+                <p></p>
+                <div class="container border rounded m-3 text-center">
+                    <span class="btn btn-primary" hx-post="/monolit_state" hx-target="#monolit_state">Monolit</span>
+                    <span class="btn btn-primary" hx-post="/monolit_ctx" hx-target="#monolit_state">ctx</span>
+                    <span class="btn btn-primary" hx-post="/monolit_log" hx-target="#monolit_state">log</span>
+                </div>
+                <div id="monolit_state" class="container" hx-post="/monolit_state" hx-trigger="load">
+                </div>
+            </div>
+            <div id="modules" class="container border rounded m-3 text-center">
+            </div>
+            <div id="module" class="container border rounded m-3 text-center">
+            </div>
+        </div>
+
+        <!-- подвал -->
+        <p></p>
+        <div id="footer" class="container-fluid border rounded text bg-info">
+            <span>Like project on <a href="https://gitp78su.ipnodns.ru/svi/kern">gitp78su.ipnodns.ru/svi/kern</a></span>
+            <span> <b>Time:</b> </span><span id="serv_time" hx-post="/api_time" hx-trigger="every 1s"></span>
+            <span hx-post="/api_time" hx-trigger="load" hx-target="#serv_time"></span>
+        </div>
+        <script src="/static/js/bootstrap.bundle.min.js"></script>
+    </body>
+
+</HTML>

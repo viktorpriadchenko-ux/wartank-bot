@@ -1,0 +1,99 @@
+<h1>Страница состояния бота вартанк</h1>
+<p class="border rounded"><span class="badge bg-secondary">Имя:</span> {{.имя}}</p>
+<div class="container m-3 d-flex flex-wrap border rounded">
+
+
+    <!-- глобальная статистика -->
+    <div class="card border-primary m-3">
+        <div class="card-header">
+            <h3>Статистика</h3>
+        </div>
+        <div class="card-body">
+            {.block_gold} {.block_silver}<br><br> {.block_fuel} {.block_glory}
+        </div>
+    </div>
+
+
+    <!-- статистика силы танка -->
+    <div class="card border-primary m-3">
+        <div class="card-header">
+            <h3>Сила танка</h3>
+        </div>
+        <div class="card-body">
+            {.attack} {.броня}<br><br> {.точность} {.прочность}
+        </div>
+        <div class="card-footer border-success">
+            {.block_power}
+        </div>
+    </div>
+
+
+
+    <!-- статистика по шахте-->
+    <div class="card border-primary m-3">
+        <div class="card-header">
+            <h3>Шахта</h3>
+        </div>
+        <div class="card-body">
+            {.шахта_уровень} {.шахта_режим}<br><br>
+            {.шахта_сделать_кол} {.шахта_сделать_назв}
+        </div>
+        <div class="card-footer border-success">
+            {.шахта_сделать_время}
+        </div>
+        <button type="button" class="btn btn-secondary" hx-post="/api/bot/{.id}/mine/log" hx-trigger="click"
+            hx-target="#mine_log">Лог</button>
+        <div class="text" id="mine_log"></div>
+    </div>
+
+
+    <!-- статистика по полигону-->
+    <div class="card border-primary m-3">
+        <div class="card-header">
+            <h3>Полигон</h3>
+        </div>
+        <div class="card-body">
+            <p class="card-text" hx-post="/api/bot/{.id}/polygon/level" hx-trigger="every 5s">Уровень:
+                {.полигон_уровень}</p>
+            <p class="card-text" hx-post="/api/bot/{.id}/polygon/mode" hx-trigger="every 5s">Режим:
+                {.полигон_режим}</p>
+            <p class="card-text" hx-post="/api/bot/{.id}/polygon/count_product" hx-trigger="every 5s">Кол:
+                {.полигон_сделать_кол}</p>
+            <p class="card-text" hx-post="/api/bot/{.id}/polygon/name_product" hx-trigger="every 5s">Тип:
+                {.полигон_сделать_назв}</p>
+        </div>
+        <div class="card-footer border-success" hx-post="/api/bot/{.id}/polygon/back_time" hx-trigger="every 5s">
+            Время: {.полигон_сделать_время}</div>
+    </div>
+
+
+    <!-- статистика по арсеналу-->
+    <div class="card border-primary m-3">
+        <div class="card-header">
+            <h3>Арсенал</h3>
+        </div>
+        <div class="card-body">
+            <p class="card-text" hx-post="/api/bot/{.id}/arsenal/level" hx-trigger="every 5s">Уровень:
+                {.арсенал_уровень}</p>
+            <p class="card-text" hx-post="/api/bot/{.id}/arsenal/mode" hx-trigger="every 5s">Работа:
+                {.оружейная_работа}</p>
+            <p class="card-text" hx-post="/api/bot/{.id}/arsenal/name_product" hx-trigger="every 5s">Тип:
+                {.оружейная_режим}</p>
+            <p class="card-text" hx-post="/api/bot/{.id}/arsenal/kumul" hx-trigger="every 5s">Кумул: {.оружейная_кумул}
+            </p>
+            <p class="card-text" hx-post="/api/bot/{.id}/arsenal/bron" hx-trigger="every 5s">Бронебойки:
+                {.оружейная_бронебойки}</p>
+            <p class="card-text" hx-post="/api/bot/{.id}/arsenal/fugas" hx-trigger="every 5s">Фугасы:
+                {.оружейная_фугасы}</p>
+            <p class="card-text" hx-post="/api/bot/{.id}/arsenal/remka" hx-trigger="every 5s">Ремки: {.оружейная_ремки}
+            </p>
+        </div>
+        <div class="card-footer border-success" hx-post="/api/bot/{.id}/arsenal/back_time" hx-trigger="every 5s">
+            Время: {.оружейная_время}</div>
+        <button type="button" class="btn btn-secondary" hx-post="/api/bot/{.id}/arsenal/log" hx-trigger="click"
+            hx-target="#arsenal_log">Лог</button>
+        <div class="text" id="arsenal_log"></div>
+    </div>
+
+
+</div>

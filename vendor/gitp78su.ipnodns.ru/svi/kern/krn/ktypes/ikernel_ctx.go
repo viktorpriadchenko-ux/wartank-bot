@@ -1,0 +1,15 @@
+// package kernel_types -- интерфейсы проекта
+package ktypes
+
+import "context"
+
+// IKernelCtx -- интерфейс к контексту ядра
+type IKernelCtx interface {
+	ILocalCtx
+	// CtxBg -- возвращает неотменяемый контекст ядра
+	CtxBg() context.Context
+	// Wg -- возвращает ожидатель потоков
+	Wg() IKernelWg
+	// Keeper -- возвращает системный сторож
+	Keeper() IKernelKeeper
+}

@@ -1,0 +1,19 @@
+<div id="main" hx-swap-oob=""></div>
+<div>
+    <h1>Страница добавления бота вартанк</h1>
+    <form class="container border rounded">
+        <div class="row p-3">
+            <label for="login_bot" class="col-2 form-label text-right">Логин бота:</label>
+            <input class="col form-control" type="text" name="login_bot" id="login_bot" placeholder="login_bot">
+        </div>
+        <div class="row p-3">
+            <label for="password_bot" class="col-2 form-label text-right">Пароль бота:</label>
+            <input class="col form-control" type="password" name="password_bot" id="password_bot"
+                placeholder="password_bot">
+        </div>
+        <div class="row p-3">
+            <label class="col form-label text-right"></label>
+            <button class="col-2 btn btn-primary" hx-post="/gui/bot/add/make" hx-target="#main">Добавить</button>
+        </div>
+    </form>
+</div>

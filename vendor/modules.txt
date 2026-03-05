@@ -1,0 +1,231 @@
+# github.com/ajstarks/svgo v0.0.0-20211024235047-1546f124cd8b
+## explicit; go 1.15
+github.com/ajstarks/svgo
+# github.com/andybalholm/brotli v1.1.1
+## explicit; go 1.13
+github.com/andybalholm/brotli
+github.com/andybalholm/brotli/matchfinder
+# github.com/cespare/xxhash/v2 v2.3.0
+## explicit; go 1.11
+github.com/cespare/xxhash/v2
+# github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc
+## explicit
+# github.com/dgraph-io/badger/v4 v4.6.0
+## explicit; go 1.22.12
+github.com/dgraph-io/badger/v4
+github.com/dgraph-io/badger/v4/fb
+github.com/dgraph-io/badger/v4/options
+github.com/dgraph-io/badger/v4/pb
+github.com/dgraph-io/badger/v4/skl
+github.com/dgraph-io/badger/v4/table
+github.com/dgraph-io/badger/v4/trie
+github.com/dgraph-io/badger/v4/y
+# github.com/dgraph-io/ristretto/v2 v2.1.0
+## explicit; go 1.21
+github.com/dgraph-io/ristretto/v2
+github.com/dgraph-io/ristretto/v2/z
+github.com/dgraph-io/ristretto/v2/z/simd
+# github.com/dustin/go-humanize v1.0.1
+## explicit; go 1.16
+github.com/dustin/go-humanize
+# github.com/go-logr/logr v1.4.2
+## explicit; go 1.18
+github.com/go-logr/logr
+github.com/go-logr/logr/funcr
+# github.com/go-logr/stdr v1.2.2
+## explicit; go 1.16
+github.com/go-logr/stdr
+# github.com/gofiber/fiber/v2 v2.52.6
+## explicit; go 1.20
+github.com/gofiber/fiber/v2
+github.com/gofiber/fiber/v2/internal/go-ole
+github.com/gofiber/fiber/v2/internal/go-ole/oleutil
+github.com/gofiber/fiber/v2/internal/gopsutil/common
+github.com/gofiber/fiber/v2/internal/gopsutil/cpu
+github.com/gofiber/fiber/v2/internal/gopsutil/load
+github.com/gofiber/fiber/v2/internal/gopsutil/mem
+github.com/gofiber/fiber/v2/internal/gopsutil/net
+github.com/gofiber/fiber/v2/internal/gopsutil/process
+github.com/gofiber/fiber/v2/internal/schema
+github.com/gofiber/fiber/v2/internal/wmi
+github.com/gofiber/fiber/v2/log
+github.com/gofiber/fiber/v2/middleware/adaptor
+github.com/gofiber/fiber/v2/middleware/compress
+github.com/gofiber/fiber/v2/middleware/filesystem
+github.com/gofiber/fiber/v2/middleware/monitor
+github.com/gofiber/fiber/v2/utils
+# github.com/google/flatbuffers v25.2.10+incompatible
+## explicit
+github.com/google/flatbuffers/go
+# github.com/google/uuid v1.6.0
+## explicit
+github.com/google/uuid
+# github.com/klauspost/compress v1.18.0
+## explicit; go 1.22
+github.com/klauspost/compress
+github.com/klauspost/compress/flate
+github.com/klauspost/compress/fse
+github.com/klauspost/compress/gzip
+github.com/klauspost/compress/huff0
+github.com/klauspost/compress/internal/cpuinfo
+github.com/klauspost/compress/internal/le
+github.com/klauspost/compress/internal/race
+github.com/klauspost/compress/internal/snapref
+github.com/klauspost/compress/s2
+github.com/klauspost/compress/snappy
+github.com/klauspost/compress/zlib
+github.com/klauspost/compress/zstd
+github.com/klauspost/compress/zstd/internal/xxhash
+# github.com/mattn/go-colorable v0.1.14
+## explicit; go 1.18
+github.com/mattn/go-colorable
+# github.com/mattn/go-isatty v0.0.20
+## explicit; go 1.15
+github.com/mattn/go-isatty
+# github.com/mattn/go-runewidth v0.0.16
+## explicit; go 1.9
+github.com/mattn/go-runewidth
+# github.com/pkg/errors v0.9.1
+## explicit
+github.com/pkg/errors
+# github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2
+## explicit
+# github.com/rivo/uniseg v0.4.7
+## explicit; go 1.18
+github.com/rivo/uniseg
+# github.com/valyala/bytebufferpool v1.0.0
+## explicit
+github.com/valyala/bytebufferpool
+# github.com/valyala/fasthttp v1.59.0
+## explicit; go 1.21
+github.com/valyala/fasthttp
+github.com/valyala/fasthttp/fasthttpadaptor
+github.com/valyala/fasthttp/fasthttputil
+github.com/valyala/fasthttp/reuseport
+github.com/valyala/fasthttp/stackless
+github.com/valyala/fasthttp/tcplisten
+# gitp78su.ipnodns.ru/svi/kern v1.15.0
+## explicit; go 1.23.0
+gitp78su.ipnodns.ru/svi/kern
+gitp78su.ipnodns.ru/svi/kern/kc/helpers
+gitp78su.ipnodns.ru/svi/kern/kc/local_ctx
+gitp78su.ipnodns.ru/svi/kern/kc/local_ctx/ctx_value
+gitp78su.ipnodns.ru/svi/kern/kc/local_ctx/lst_sort
+gitp78su.ipnodns.ru/svi/kern/kc/log_buf
+gitp78su.ipnodns.ru/svi/kern/kc/log_buf/log_msg
+gitp78su.ipnodns.ru/svi/kern/kc/safe_bool
+gitp78su.ipnodns.ru/svi/kern/kc/safe_bool_react
+gitp78su.ipnodns.ru/svi/kern/kc/safe_int
+gitp78su.ipnodns.ru/svi/kern/kc/safe_string
+gitp78su.ipnodns.ru/svi/kern/krn/kalias
+gitp78su.ipnodns.ru/svi/kern/krn/kbus/dict_sub_hook
+gitp78su.ipnodns.ru/svi/kern/krn/kbus/dict_topic_serve
+gitp78su.ipnodns.ru/svi/kern/krn/kbus/dict_topic_sub
+gitp78su.ipnodns.ru/svi/kern/krn/kbus/kbus_base
+gitp78su.ipnodns.ru/svi/kern/krn/kbus/kbus_http
+gitp78su.ipnodns.ru/svi/kern/krn/kbus/kbus_http/client_bus_http
+gitp78su.ipnodns.ru/svi/kern/krn/kbus/kbus_local
+gitp78su.ipnodns.ru/svi/kern/krn/kbus/kbus_local/client_bus_local
+gitp78su.ipnodns.ru/svi/kern/krn/kbus/kbus_msg/msg_pub
+gitp78su.ipnodns.ru/svi/kern/krn/kbus/kbus_msg/msg_serve
+gitp78su.ipnodns.ru/svi/kern/krn/kbus/kbus_msg/msg_sub
+gitp78su.ipnodns.ru/svi/kern/krn/kbus/kbus_msg/msg_unsub
+gitp78su.ipnodns.ru/svi/kern/krn/kctx
+gitp78su.ipnodns.ru/svi/kern/krn/kctx/kernel_keeper
+gitp78su.ipnodns.ru/svi/kern/krn/kctx/kwg
+gitp78su.ipnodns.ru/svi/kern/krn/kmodule
+gitp78su.ipnodns.ru/svi/kern/krn/kmodule/mod_stat
+gitp78su.ipnodns.ru/svi/kern/krn/kmodule/mod_stat/mod_stat_day
+gitp78su.ipnodns.ru/svi/kern/krn/kmodule/mod_stat/mod_stat_sec
+gitp78su.ipnodns.ru/svi/kern/krn/kmonolit
+gitp78su.ipnodns.ru/svi/kern/krn/kserv_http
+gitp78su.ipnodns.ru/svi/kern/krn/kstore_kv
+gitp78su.ipnodns.ru/svi/kern/krn/ktypes
+gitp78su.ipnodns.ru/svi/kern/mds/mod_kctx
+gitp78su.ipnodns.ru/svi/kern/mds/mod_keeper
+gitp78su.ipnodns.ru/svi/kern/mds/mod_serv_http
+gitp78su.ipnodns.ru/svi/kern/mds/mod_serv_http/btn_modules
+gitp78su.ipnodns.ru/svi/kern/mds/mod_serv_http/btn_monolit
+gitp78su.ipnodns.ru/svi/kern/mds/mod_serv_http/http_api
+gitp78su.ipnodns.ru/svi/kern/mds/mod_serv_http/page_module
+gitp78su.ipnodns.ru/svi/kern/mds/mod_serv_http/page_monolit
+gitp78su.ipnodns.ru/svi/kern/mds/mod_wui
+gitp78su.ipnodns.ru/svi/kern/mock/mock_hand_sub_http
+gitp78su.ipnodns.ru/svi/kern/wui
+gitp78su.ipnodns.ru/svi/kern/wui/hx_swap
+gitp78su.ipnodns.ru/svi/kern/wui/hx_swap_oob
+gitp78su.ipnodns.ru/svi/kern/wui/hx_target
+gitp78su.ipnodns.ru/svi/kern/wui/hx_trigger
+gitp78su.ipnodns.ru/svi/kern/wui/hx_url
+gitp78su.ipnodns.ru/svi/kern/wui/hx_url_method
+gitp78su.ipnodns.ru/svi/kern/wui/hx_url_patch
+gitp78su.ipnodns.ru/svi/kern/wui/hx_vals
+gitp78su.ipnodns.ru/svi/kern/wui/wbutton
+gitp78su.ipnodns.ru/svi/kern/wui/wctx
+gitp78su.ipnodns.ru/svi/kern/wui/whx
+gitp78su.ipnodns.ru/svi/kern/wui/wtext
+gitp78su.ipnodns.ru/svi/kern/wui/wtypes
+gitp78su.ipnodns.ru/svi/kern/wui/wwidget
+# go.opentelemetry.io/auto/sdk v1.1.0
+## explicit; go 1.22.0
+go.opentelemetry.io/auto/sdk
+go.opentelemetry.io/auto/sdk/internal/telemetry
+# go.opentelemetry.io/otel v1.35.0
+## explicit; go 1.22.0
+go.opentelemetry.io/otel
+go.opentelemetry.io/otel/attribute
+go.opentelemetry.io/otel/baggage
+go.opentelemetry.io/otel/codes
+go.opentelemetry.io/otel/internal
+go.opentelemetry.io/otel/internal/attribute
+go.opentelemetry.io/otel/internal/baggage
+go.opentelemetry.io/otel/internal/global
+go.opentelemetry.io/otel/propagation
+go.opentelemetry.io/otel/semconv/v1.26.0
+# go.opentelemetry.io/otel/metric v1.35.0
+## explicit; go 1.22.0
+go.opentelemetry.io/otel/metric
+go.opentelemetry.io/otel/metric/embedded
+# go.opentelemetry.io/otel/trace v1.35.0
+## explicit; go 1.22.0
+go.opentelemetry.io/otel/trace
+go.opentelemetry.io/otel/trace/embedded
+go.opentelemetry.io/otel/trace/internal/telemetry
+go.opentelemetry.io/otel/trace/noop
+# golang.org/x/net v0.38.0
+## explicit; go 1.23.0
+golang.org/x/net/internal/timeseries
+golang.org/x/net/trace
+# golang.org/x/sys v0.31.0
+## explicit; go 1.23.0
+golang.org/x/sys/unix
+golang.org/x/sys/windows
+# google.golang.org/protobuf v1.36.6
+## explicit; go 1.22
+google.golang.org/protobuf/encoding/prototext
+google.golang.org/protobuf/encoding/protowire
+google.golang.org/protobuf/internal/descfmt
+google.golang.org/protobuf/internal/descopts
+google.golang.org/protobuf/internal/detrand
+google.golang.org/protobuf/internal/editiondefaults
+google.golang.org/protobuf/internal/encoding/defval
+google.golang.org/protobuf/internal/encoding/messageset
+google.golang.org/protobuf/internal/encoding/tag
+google.golang.org/protobuf/internal/encoding/text
+google.golang.org/protobuf/internal/errors
+google.golang.org/protobuf/internal/filedesc
+google.golang.org/protobuf/internal/filetype
+google.golang.org/protobuf/internal/flags
+google.golang.org/protobuf/internal/genid
+google.golang.org/protobuf/internal/impl
+google.golang.org/protobuf/internal/order
+google.golang.org/protobuf/internal/pragma
+google.golang.org/protobuf/internal/protolazy
+google.golang.org/protobuf/internal/set
+google.golang.org/protobuf/internal/strs
+google.golang.org/protobuf/internal/version
+google.golang.org/protobuf/proto
+google.golang.org/protobuf/reflect/protoreflect
+google.golang.org/protobuf/reflect/protoregistry
+google.golang.org/protobuf/runtime/protoiface
+google.golang.org/protobuf/runtime/protoimpl

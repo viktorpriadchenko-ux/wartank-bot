@@ -1,0 +1,40 @@
+<div id="modules" hx-swap-oob="true"></div>
+<div id="module" class="container border rounded m-3 text-center">
+    <h2>Module {.name}</h2>
+
+    <p></p>
+
+    <div class="container border rounded m-3 text-center">
+        <span class="btn btn-primary" hx-post="/module/{.id}" hx-target="#module">State</span>
+        <span class="btn btn-primary" hx-post="/module_ctx/{.id}" hx-target="#module_state">ctx</span>
+        <span class="btn btn-primary" hx-post="/module_log/{.id}" hx-target="#module_state">log</span>
+    </div>
+    <div id="module_state">
+        {.mod_state}
+
+        <div>
+            <div id="mod_graph_sec" hx-post="/module_svg_sec/svg_sec_{.id}.svg" hx-trigger="every 1s">
+            </div>
+
+            <span hx-post="/module_svg_sec/svg_sec_{.id}.svg" hx-trigger="load" class="container"
+                hx-target="#mod_graph_sec"></span>
+        </div>
+
+        <div>
+            <div id="mod_graph_min" hx-post="/module_svg_min/svg_min_{.id}.svg" hx-trigger="every 10s">
+            </div>
+
+            <span hx-post="/module_svg_min/svg_min_{.id}.svg" hx-trigger="load" class="container"
+                hx-target="#mod_graph_min"></span>
+        </div>
+
+        <div>
+            <div id="mod_graph_day" hx-post="/module_svg_day/svg_day_{.id}.svg" hx-trigger="every 30s">
+            </div>
+
+            <span hx-post="/module_svg_day/svg_day_{.id}.svg" hx-trigger="load" class="container"
+                hx-target="#mod_graph_day"></span>
+        </div>
+
+    </div>
+</div>

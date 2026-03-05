@@ -1,0 +1,22 @@
+<h1>Логин на сервер</h1>
+
+<!-- Форма логина -->
+<form class="container border rounded">
+    <div class="row p-3">
+        <label for="login" class="col-2 form-label text-right">Логин:</label>
+        <input type="text" id="login" name="login" id="login" class="col form-control" placeholder="admin"><br><br>
+    </div>
+
+    <div class="row p-3">
+        <label for="password" class="col-2 form-label">Пароль:</label>
+        <input type="password" id="password" name="password" class="col form-control text-right"
+            placeholder="12345"><br><br>
+    </div>
+
+    <div class="row p-3">
+        <label class="col">:</label>
+        <input type="submit" class="col-2 btn btn-primary" hx-post="/gui/login_make" hx-target="#main" value="Вход">
+    </div>
+</form>
+
+<p>{.err}</p>
